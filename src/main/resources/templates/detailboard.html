@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+
+    <center>
+    <h2>게시글 상세페이지</h2>
+    <br>
+    <p><span>작성자 : </span><span th:text="${board.name}"></span></p>
+    <span>제목 : </span><span th:text="${board.title}"></span>
+        <br>
+    <p>내용</p>
+    <p th:text="${board.text}"></p>
+    </center>
+
+</div>
+</body>
+</html>
