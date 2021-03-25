@@ -20,6 +20,12 @@ public class noticeboardController {
     private final BoardService boardService;
 
     //게시글 작성 페이지
+    @GetMapping("/")
+    public String getIndex(){
+        return "/timeline";
+    }
+
+    //게시글 작성 페이지
     @GetMapping("/api/notice")
     public String getNotice(Model model){
         model.addAttribute("board", new BoardRequestDto());
@@ -54,14 +60,28 @@ public class noticeboardController {
     }
 
 
-    @DeleteMapping("/api/boards/{id}")
-    public Long deleteBoard(@PathVariable Long id){
-        boardRepository.deleteById(id);
-        return id;
+    @GetMapping("/api/boards/edit/{id}")
+    public String getEditBoard(@PathVariable Long id, Model model){
+        Board board = boardRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
+
+        );
+        model.addAttribute("board",board);
+        return "editboard";
     }
 
-    @PutMapping("/api/boards/{id}")
-    public Long updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto){
-        return boardService.update(id, requestDto);
+
+    @PutMapping("/api/boards/edit/{id}")
+    public String updateBoard(@PathVariable Long id, @ModelAttribute BoardRequestDto requestDto){
+        boardService.update(id, requestDto);
+        return "redirect:/api/boards";
+
     }
+
+    @DeleteMapping("/api/boards/delete/{id}")
+    public String deleteBoard(@PathVariable Long id){
+        boardRepository.deleteById(id);
+        return "redirect:/api/boards";
+    }
+
 }

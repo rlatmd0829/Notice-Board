@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script type = "text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2 class = "container">게시글 수정</h2>
+    <br>
+    <form class = container action = "#" th:action="@{/api/boards/edit/}+${board.id}" th:object="${board}" method="post">
+
+        <div class="form-group">
+            <label th:for=${board.id}+name>이름</label>
+            <input th:id=${board.id}+name type="text" class="form-control" th:text="${board.name}" th:field = "*{name}">
+        </div>
+
+        <div class="form-group">
+            <label th:for=${board.id}+title>제목</label>
+            <input th:id=${board.id}+title type="text" class="form-control"    th:field = "*{title}">
+        </div>
+
+        <div class="form-group"><textarea th:id=${board.id}+text class="form-control" th:text="${board.text}" placeholder="내용을 입력하세요." rows="6" th:field = "*{text}"></textarea></div>
+
+<!--        <div><button id="submit" class="btn btn-primary" th:onclick=edit(${board.id}) value="작성">수정하기</button></div>-->
+        <div><input type=submit class="btn btn-primary" value="제출"></div>
+        <input type="hidden" name="_method" value="put"/>
+
+    </form>
+
+</div>
+<script>
+    // function edit(id){
+    //     let name = $(`#${id}name`).text.trim();
+    //     let title = $(`#${id}title`).text.trim();
+    //     let text = $(`#${id}text`).text.trim();
+    //     let data = {'name' : name, 'title':title, 'text': text};
+    //     $.ajax({
+    //         type: 'PUT',
+    //         url : `/api/boards/edit/${id}`,
+    //         contentType: "application/json",
+    //         data : JSON.stringify(data),
+    //         success: function (response){
+    //             alert('게시글 수정에 성공하셨습니다.')
+    //
+    //         }
+
+        });
+    }
+
+
+</script>
+</body>
+</html>

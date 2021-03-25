@@ -4,20 +4,40 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 </head>
 <body>
 <div class="container">
 
     <center>
-    <h2>게시글 상세페이지</h2>
-    <br>
-    <p><span>작성자 : </span><span th:text="${board.name}"></span></p>
-    <span>제목 : </span><span th:text="${board.title}"></span>
+        <h2>게시글 상세페이지</h2>
         <br>
-    <p>내용</p>
-    <p th:text="${board.text}"></p>
+        <p><span>작성자 : </span><span th:text="${board.name}"></span></p>
+        <span>제목 : </span><span th:text="${board.title}"></span>
+        <br>
+        <p>내용</p>
+        <p th:text="${board.text}"></p>
+
+        <button th:id="${board.id}+editBoard" class="btn btn-primary" >수정하기</button>
+        <form action="#" th:action="@{/api/boards/delete/}+${board.id}" method="post">
+
+            <input type="submit" class="btn btn-primary" value="삭제하기">
+            <input type="hidden" name="_method" value="delete"/>
+        </form>
+
     </center>
 
+
+
 </div>
+
+    <script>
+        $('#[[${board.id}]]editBoard').click(
+            function(event) {
+                var boardId = "[[${board.id}]]";
+                window.location.replace('/api/boards/edit/'+ boardId);
+
+            })
+    </script>
 </body>
 </html>

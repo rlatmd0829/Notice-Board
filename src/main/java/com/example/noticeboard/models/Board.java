@@ -33,6 +33,7 @@ public class Board {
 
     public void update(BoardRequestDto requestDto) {
         this.title = requestDto.getTitle();
+        this.name = requestDto.getName();
         this.text = requestDto.getText();
     }
 }
