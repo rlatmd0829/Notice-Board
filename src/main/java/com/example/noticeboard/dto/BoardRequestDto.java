@@ -1,4 +1,4 @@
-package com.example.noticeboard.models;
+package com.example.noticeboard.dto;
 
 import lombok.Getter;
 import lombok.Setter;

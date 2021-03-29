@@ -1,8 +1,8 @@
 package com.example.noticeboard.service;
 
 import com.example.noticeboard.models.Board;
-import com.example.noticeboard.models.BoardRepository;
-import com.example.noticeboard.models.BoardRequestDto;
+import com.example.noticeboard.repository.BoardRepository;
+import com.example.noticeboard.dto.BoardRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

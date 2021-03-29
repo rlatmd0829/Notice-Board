@@ -1,5 +1,6 @@
 package com.example.noticeboard.models;
 
+import com.example.noticeboard.dto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

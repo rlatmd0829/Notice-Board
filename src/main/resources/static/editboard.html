@@ -10,7 +10,7 @@
 <div class="container">
     <h2 class = "container">게시글 수정</h2>
     <br>
-    <form class = container action = "#" th:action="@{/api/boards/edit/}+${board.id}" th:object="${board}" method="post">
+    <form class = container action = "#" th:action="@{/api/board/}+${board.id}+@{/edit}" th:object="${board}" method="post">
 
         <div class="form-group">
             <label th:for=${board.id}+name>이름</label>
@@ -39,7 +39,7 @@
     //     let data = {'name' : name, 'title':title, 'text': text};
     //     $.ajax({
     //         type: 'PUT',
-    //         url : `/api/boards/edit/${id}`,
+    //         url : `/api/board/edit/${id}`,
     //         contentType: "application/json",
     //         data : JSON.stringify(data),
     //         success: function (response){

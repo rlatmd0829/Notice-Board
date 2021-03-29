@@ -10,8 +10,7 @@
 <div class="container">
 <h2 class = "container">게시글 작성</h2>
     <br>
-    <form class = container action = "#" th:action="@{/api/notice}" th:object="${board}" method="post">
-
+    <form class = container action = "#" th:action="@{/api/board}" th:object="${board}" method="post">
         <div class="form-group">
             <label for="exampleFormControlInput1">이름</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" th:field = "*{name}">
@@ -22,13 +21,8 @@
             <input type="text" class="form-control" id="exampleFormControlInput2"  th:field = "*{title}">
         </div>
 
-
-
         <div class="form-group"><textarea class="form-control"  placeholder="내용을 입력하세요." rows="6" th:field = "*{text}"></textarea></div>
         <div><input class="btn btn-primary" type="submit" value="작성"></div>
-
-
-
     </form>
 </div>
 
