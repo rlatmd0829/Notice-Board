@@ -8,15 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -47,12 +45,40 @@ public class UserController {
     }
 
     @PostMapping("/user/signup")
-    public String registerUser(@Valid @ModelAttribute UserRequestDto requestDto, BindingResult result, Model model){
-        if(result.hasErrors()){
+    public String registerUser(@Valid @ModelAttribute("requestDto") UserRequestDto requestDto, BindingResult bindingResult){
+
+        // 회원 ID 중복 확인
+        Optional<User> found1 = userRepository.findByUsername(requestDto.getUsername()); // Optional을 쓰면 null을 받을 수 있다.
+        if(found1.isPresent()){ // found가 null이 아니면 true를 출력한다.
+            FieldError fieldError = new FieldError("requestDto", "username", "이미 존재하는 ID입니다.");
+            bindingResult.addError(fieldError);
+        }
+
+        if(!requestDto.getPassword().equals(requestDto.getCheckpw())){
+            FieldError fieldError = new FieldError("requestDto","checkpw","암호가 일치하지 않습니다.");
+            bindingResult.addError(fieldError);
+        }
+
+        Optional<User> found2 = userRepository.findByEmail(requestDto.getEmail());
+        if(found2.isPresent()){ // found가 null이 아니면 true , true이면 같은이메일이 존재한다는 뜻
+            FieldError fieldError = new FieldError("requestDto", "email", "이미 존재하는 email입니다.");
+            bindingResult.addError(fieldError);
+        }
+
+        if(bindingResult.hasErrors()){
             return "signup";
         }
+
         userService.registerUser(requestDto);
         return "redirect:/user/login";
 
+    }
+
+    @GetMapping("/user/kakao/callback")
+    public String kakaoLogin(String code){
+        // authorizedCode: 카카오 서버로부터 받은 인가 코드
+        userService.kakaoLogin(code);
+
+        return "redirect:/";
     }
 }

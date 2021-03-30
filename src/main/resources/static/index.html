@@ -38,7 +38,7 @@
             <tr>
                 <td></td>
                 <th scope="col"><a th:href="@{/api/board/}+${board.id}" th:text="${board.title}"> </a></th>
-                <th scope="col" th:text="${board.name}"></th>
+                <th scope="col" th:text="${board.user.username}"></th>
                 <th scope="col" th:text="${board.text}"></th>
             </tr>
         </div>

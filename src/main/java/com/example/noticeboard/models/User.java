@@ -1,18 +1,17 @@
 package com.example.noticeboard.models;
 
 import com.example.noticeboard.dto.UserRequestDto;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+
 
 @Entity
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class User extends Timestamped {
 
@@ -26,7 +25,7 @@ public class User extends Timestamped {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = true)
@@ -44,5 +43,12 @@ public class User extends Timestamped {
         this.password = password;
         this.email = email;
         this.kakaoId = null;
+    }
+
+    public User(String username, String password, String email, Long kakaoId) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.kakaoId = kakaoId;
     }
 }

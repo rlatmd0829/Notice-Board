@@ -1,32 +1,48 @@
 package com.example.noticeboard.controller;
 
 import com.example.noticeboard.models.Board;
+import com.example.noticeboard.models.Comment;
+import com.example.noticeboard.models.User;
 import com.example.noticeboard.repository.BoardRepository;
 import com.example.noticeboard.dto.BoardRequestDto;
+import com.example.noticeboard.repository.CommentRepository;
+import com.example.noticeboard.repository.UserRepository;
 import com.example.noticeboard.security.UserDetailsImpl;
 import com.example.noticeboard.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 //@ResponseBody 이거 추가하면 타임리프 작동을 안한다
-@RequiredArgsConstructor
+
 public class BoardController {
-    private final BoardRepository boardRepository;
-    private final BoardService boardService;
+
+    @Autowired
+    BoardRepository boardRepository;
+
+    @Autowired
+    BoardService boardService;
+
+    @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     //게시글 전체 조회
-    @GetMapping("/api/index")
-    public String getBoard(Model model){
-        List<Board> board = boardRepository.findAll();
-        model.addAttribute("board",board);
-        return "index";
-    }
+//    @GetMapping("/api/index")
+//    public String getBoard(Model model){
+//        List<Board> board = boardRepository.findAll();
+//        model.addAttribute("board",board);
+//        return "index";
+//    }
 
 //    @GetMapping("/")
 //    public String getIndex(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
@@ -38,22 +54,25 @@ public class BoardController {
 
     @GetMapping("/")
     public String getIndex(Model model){
-        List<Board> board = boardRepository.findAll();
-        model.addAttribute("board",board);
+        List<Board> board1 = boardRepository.findAll();
+        model.addAttribute("board",board1);
         return "index";
     }
 
     //게시글 작성 페이지
     @GetMapping("/api/board")
-    public String getNotice(Model model){
-        model.addAttribute("board", new BoardRequestDto());
+    public String getNotice( Model model){
+        Board board = new Board();
+
+        model.addAttribute("board", board);
         return "board";
     }
 
     // 게시글 작성
     @PostMapping("/api/board")
-    public String createNotice(@ModelAttribute BoardRequestDto requestDto){
+    public String createNotice(@AuthenticationPrincipal UserDetailsImpl userDetails,@ModelAttribute BoardRequestDto requestDto){
         Board board = new Board(requestDto);
+        board.setUser(userDetails.getUser());
         boardRepository.save(board);
         return "redirect:/";
     }
@@ -65,8 +84,11 @@ public class BoardController {
     public String getOneBoard(@PathVariable Long id, Model model){
         Board board = boardRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
-
         );
+
+        List<Comment> comment = commentRepository.findByBoardIdOrderByModifiedAtDesc(id);
+        model.addAttribute("postcomment",new Comment());
+        model.addAttribute("comment", comment);
         model.addAttribute("board",board);
         return "/detailboard";
     }
@@ -76,7 +98,6 @@ public class BoardController {
     public String getEditBoard(@PathVariable Long id, Model model){
         Board board = boardRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
-
         );
         model.addAttribute("board",board);
         return "editboard";
