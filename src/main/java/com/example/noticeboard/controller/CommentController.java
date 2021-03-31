@@ -10,9 +10,7 @@ import com.example.noticeboard.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +33,24 @@ public class CommentController {
         comment.setUser(userDetails.getUser());
         comment.setBoard(board);
         commentRepository.save(comment);
+        return "redirect:/api/board/{id}";
+    }
+
+    @PutMapping("/api/board/{id}/comment/{commentId}")
+    public String editComment(@PathVariable Long commentId, @ModelAttribute CommentRequestDto requestDto){
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                ()-> new IllegalArgumentException("댓글이 존재하지 않습니다.")
+        );
+
+        comment.setText(requestDto.getText());
+
+        commentRepository.save(comment);
+        return "redirect:/api/board/{id}";
+    }
+
+    @DeleteMapping("/api/board/{id}/comment/{commentId}")
+    public String deleteComment(@PathVariable Long commentId){
+        commentRepository.deleteById(commentId);
         return "redirect:/api/board/{id}";
     }
 }

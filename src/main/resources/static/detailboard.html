@@ -4,59 +4,155 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script type = "text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 </head>
 <body>
 <div class="container">
 
-    <center>
-        <h2>게시글 상세페이지</h2>
-        <br>
-        <p><span>작성자 : </span><span th:text="${board.user.username}"></span></p>
-        <span>제목 : </span><span th:text="${board.title}"></span>
-        <br>
-        <p>내용</p>
-        <p th:text="${board.text}"></p>
 
-        <button th:id="${board.id}+editBoard" class="btn btn-primary" >수정하기</button>
-        <form action="#" th:action="@{/api/board/}+${board.id}+@{/delete}" method="post">
+        <h2>게시글 상세페이지</h2>
+
+        <br>
+        <div class="form-group"><label>작성자 :  </label><span th:text="${board.user.username}"></span></div>
+        <div class="form-group"><label>제목 :  </label><span th:text="${board.title}"></span></div>
+
+        <div class="form-group">
+            <label for="tt">내용</label>
+            <p id="tt" class="form-control" rows="6" th:text="${board.text}" ></p>
+        </div>
+
+    <div id="boardedit" style="display: none">
+        <button th:id="${board.id}+editBoard" class="btn btn-primary">수정하기</button>
+        <form action="#" th:action="@{/api/board/}+${board.id}+@{/delete}" method="post" style="display: inline">
 
             <input type="submit" class="btn btn-primary" value="삭제하기">
             <input type="hidden" name="_method" value="delete"/>
         </form>
+    </div>
+    <br>
 
-        <form action="#" th:action="@{/api/board/}+${board.id}+@{/comment}" onsubmit="return check()" method="post" th:object="${postcomment}">
-            <input id="txt" type="text" th:field = "*{text}">
+<!--    댓글 작성-->
+        <form action="#" th:action="@{/api/board/}+${board.id}+@{/comment}" onsubmit="return check1()" method="post" th:object="${postcomment}">
+            <label>댓글</label>
+            <textarea id="txt" rows="5" th:field = "*{text}" class="form-control"></textarea>
+            <br>
             <input type="submit" class="btn btn-primary" value="댓글작성">
         </form>
+        <br>
 
-        <div th:each="comment : ${comment}" name="fr"  class="table table-striped text-center">
-            <p   th:text="${comment.user.username}"></p>
-            <p   th:text="${comment.text}"></p>
+<!--    댓글-->
+        <div th:each="comment : ${comment}" name="fr"  class="table table-striped text-center" style="border: solid">
+            <p th:text="${comment.user.username}" style="display: inline"></p>
+            <p th:id="${comment.id}+text" th:text="${comment.text}" style="display: inline"></p>
+            <button th:if="${comment.user.username} == ${user}" th:id="${comment.id}+editComment" class="btn btn-primary" th:onclick=editPost([[${comment.id}]]) >수정</button>
+
+<!--            댓글 삭제-->
+            <form th:if="${comment.user.username} == ${user}" action="#" th:action="@{/api/board/}+${board.id}+@{/comment/}+${comment.id}" method="post" th:onsubmit="return removecheck([[${comment.id}]])" style="display: inline">
+                <input type="submit" th:id="${comment.id}+removeComment" class="btn btn-primary" value="삭제" >
+                <input type="hidden" name="_method" value="delete"/>
+            </form>
+
+
+<!--        댓글 수정-->
+            <form action="#" th:action="@{/api/board/}+${board.id}+@{/comment/}+${comment.id}" th:onsubmit="return check2([[${comment.id}]])" method="post" th:object="${editcomment}" >
+                <div th:id="${comment.id}+editdiv" style="display:none;">
+                    <input th:id="${comment.id}+editinput" type="text"  th:field = "*{text}" th:value="${comment.text}">
+                </div>
+                <div th:id="${comment.id}+submit" style="display:none;">
+                    <input  type="submit" class="btn btn-primary" value="제출" >
+                    <input type="button"  class="btn btn-primary" th:onclick="returnPost([[${comment.id}]])" value="취소">
+                </div>
+
+                <input type="hidden" name="_method" value="put"/>
+            </form>
+
+
 
         </div>
-
-    </center>
-
 
 
 </div>
 
     <script>
-        function check(){
+        function editPost(id){
+            $(`#${id}editdiv`).show();
+            $(`#${id}submit`).show();
+            $(`#${id}text`).hide();
+            $(`#${id}removeComment`).hide();
+            $(`#${id}editComment`).hide();
+            let text = $(`#${id}text`).text();
+            $(`#${id}editinput`).val(text);
+        }
+
+        function returnPost(id){
+            $(`#${id}editdiv`).hide();
+            $(`#${id}submit`).hide();
+
+            $(`#${id}text`).show();
+            $(`#${id}removeComment`).show();
+            $(`#${id}editComment`).show();
+        }
+
+        function check1(){
             var txt =document.getElementById('txt').value;
+            var user = '[[${user}]]'
+            if(txt === ""){
+                alert("댓글을 입력해주세요.");
+                return false;
+            }
+            if (user == ""){
+                alert("로그인을 해야합니다.")
+                window.location.replace("/user/login")
+                return false
+            }
+            return true;
+        }
+
+        function check2(id){
+
+            var txt =document.getElementById(id+'editinput').value;
             if(txt === ""){
                 alert("댓글을 입력해주세요.");
                 return false;
             }
             return true;
         }
+
+        function removecheck(id){
+            if(confirm("정말로 삭제하시겠습니까?")){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
         $('#[[${board.id}]]editBoard').click(
             function(event) {
                 var boardId = "[[${board.id}]]";
                 window.location.replace('/api/board/'+ boardId+'/edit');
 
             })
+
+        $(document).ready(function(){
+            var user = '[[${user}]]'
+            var boarduser = '[[${board.user.username}]]'
+            if(user == ''){
+                console.log("?")
+
+            }else{
+                console.log(user)
+                console.log(boarduser)
+                if(user == boarduser){
+                    $(`#boardedit`).show();
+                }
+
+
+            }
+        });
+
+
     </script>
 </body>
 </html>

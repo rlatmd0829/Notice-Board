@@ -3,8 +3,10 @@ package com.example.noticeboard.controller;
 import com.example.noticeboard.dto.UserRequestDto;
 import com.example.noticeboard.models.User;
 import com.example.noticeboard.repository.UserRepository;
+import com.example.noticeboard.security.UserDetailsImpl;
 import com.example.noticeboard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +29,8 @@ public class UserController {
 
     // 회원 로그인 페이지
     @GetMapping("/user/login")
-    public String login() {
+    public String login(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        model.addAttribute("user",userDetails);
         return "login";
     }
 
@@ -39,7 +42,8 @@ public class UserController {
 
     // 회원 가입 페이지
     @GetMapping("/user/signup")
-    public String signup(Model model) {
+    public String signup(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        model.addAttribute("user",userDetails);
         model.addAttribute("requestDto", new UserRequestDto());
         return "signup";
     }
@@ -59,6 +63,12 @@ public class UserController {
             bindingResult.addError(fieldError);
         }
 
+        if (requestDto.getPassword().indexOf(requestDto.getUsername()) != -1) { // indexof가 -1이면 안에 포함이 안되어있는거다.
+            FieldError fieldError = new FieldError("requestDto", "password", "비밀번호에 닉네임과 같은값을 넣을수 없습니다.");
+            bindingResult.addError(fieldError);
+        }
+
+        // 회원 email 중복 확인
         Optional<User> found2 = userRepository.findByEmail(requestDto.getEmail());
         if(found2.isPresent()){ // found가 null이 아니면 true , true이면 같은이메일이 존재한다는 뜻
             FieldError fieldError = new FieldError("requestDto", "email", "이미 존재하는 email입니다.");

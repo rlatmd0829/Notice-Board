@@ -53,17 +53,19 @@ public class BoardController {
 //    }
 
     @GetMapping("/")
-    public String getIndex(Model model){
+    public String getIndex(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
         List<Board> board1 = boardRepository.findAll();
+        System.out.println(userDetails);
+        model.addAttribute("user",userDetails);
         model.addAttribute("board",board1);
         return "index";
     }
 
     //게시글 작성 페이지
     @GetMapping("/api/board")
-    public String getNotice( Model model){
+    public String getNotice( Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
         Board board = new Board();
-
+        model.addAttribute("user",userDetails);
         model.addAttribute("board", board);
         return "board";
     }
@@ -81,15 +83,23 @@ public class BoardController {
 
     //게시글 한개 조회페이지
     @GetMapping("/api/board/{id}")
-    public String getOneBoard(@PathVariable Long id, Model model){
+    public String getOneBoard(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
         Board board = boardRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
         );
 
         List<Comment> comment = commentRepository.findByBoardIdOrderByModifiedAtDesc(id);
+        if(userDetails == null){
+            model.addAttribute("user",userDetails);
+        }else{
+            System.out.println(userDetails.getUser().getUsername());
+            model.addAttribute("user",userDetails.getUser().getUsername());
+        }
+        model.addAttribute("editcomment",new Comment());
         model.addAttribute("postcomment",new Comment());
         model.addAttribute("comment", comment);
         model.addAttribute("board",board);
+//        comment.get(0).getUser().getUsername()
         return "/detailboard";
     }
 

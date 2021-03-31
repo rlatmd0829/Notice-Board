@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script type = "text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <meta charset="UTF-8">
     <title>회원가입 페이지</title>
     <script>
@@ -25,6 +26,16 @@
                 box.style.display = "none";
             }
         }
+
+        $(document).ready(function(){
+            var user = '[[${user}]]'
+            console.log(user)
+            if(user != ''){
+            alert("이미 로그인 되어있습니다.")
+            window.location.replace("/")
+        }
+        });
+
     </script>
 </head>
 <body>

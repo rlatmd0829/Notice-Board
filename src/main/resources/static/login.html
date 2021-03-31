@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script type = "text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
     <meta charset="UTF-8">
     <title>로그인 페이지</title>
@@ -34,5 +35,16 @@
         <button id="login-id-submit">로그인</button>
     </form>
 </div>
+<script>
+    $(document).ready(function(){
+    var user = '[[${user}]]'
+    console.log(user)
+    if(user != ''){
+    alert("이미 로그인 되어있습니다.")
+    window.location.replace("/")
+
+    }
+    });
+</script>
 </body>
 </html>
