@@ -79,4 +79,8 @@
 * 게시글 상세페이지 & 댓글목록
 ![image](https://user-images.githubusercontent.com/70622731/113298153-7c6d7f80-9336-11eb-8311-49ec857c1382.png)
 
+* 게시글 작성페이지
+![image](https://user-images.githubusercontent.com/70622731/113298622-faca2180-9336-11eb-98a9-c88ab0caa5bd.png)
+
+
 
