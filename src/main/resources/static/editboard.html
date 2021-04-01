@@ -7,6 +7,20 @@
     <script type = "text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 </head>
 <body>
+
+<div class = "nav" style="background: darkgray" >
+    <h4 class="logo" >
+        <a href = "/" style="color: #ffffff;margin-left: 15px">Notice-Board</a>
+        <a th:if="${user} == 'null'" id="login-text" href="/user/login" style="float: right;color: #ffffff;margin-right: 15px">
+            로그인
+        </a>
+        <a th:if="${user} != 'null'" id="logout-text" href="/user/logout" style="float: right;color: #ffffff;margin-right: 15px">
+            로그아웃
+        </a>
+    </h4>
+
+</div>
+
 <div class="container">
     <h2 class = "container">게시글 수정</h2>
     <br>

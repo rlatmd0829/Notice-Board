@@ -2,9 +2,9 @@
     font-family: 'Nanum Gothic', sans-serif;
 }
 
-body {
-    margin: 0px;
-}
+/*body {*/
+/*    margin: 0px;*/
+/*}*/
 
 #search-result-box {
     margin-top: 15px;
@@ -178,21 +178,21 @@ button {
     margin: auto;
 }
 
-.nav {
-    width: 530px;
-    margin: 30px auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
+/*.nav {*/
+/*    width: 530px;*/
+/*    margin: 30px auto;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: space-around;*/
+/*}*/
 
-.nav div {
-    cursor: pointer;
-}
+/*.nav div {*/
+/*    cursor: pointer;*/
+/*}*/
 
-.nav div.active {
-    font-weight: 700;
-}
+/*.nav div.active {*/
+/*    font-weight: 700;*/
+/*}*/
 
 .header {
     height: 255px;

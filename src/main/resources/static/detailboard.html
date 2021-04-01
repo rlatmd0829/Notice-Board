@@ -8,6 +8,18 @@
 
 </head>
 <body>
+<div class = "nav" style="background: darkgray" >
+    <h4 class="logo" >
+        <a href = "/" style="color: #ffffff;margin-left: 15px">Notice-Board</a>
+        <a th:if="${user} == 'null'" id="login-text" href="/user/login" style="float: right;color: #ffffff;margin-right: 15px">
+            로그인
+        </a>
+        <a th:if="${user} != 'null'" id="logout-text" href="/user/logout" style="float: right;color: #ffffff;margin-right: 15px">
+            로그아웃
+        </a>
+    </h4>
+
+</div>
 <div class="container">
 
 
@@ -138,8 +150,8 @@
         $(document).ready(function(){
             var user = '[[${user}]]'
             var boarduser = '[[${board.user.username}]]'
-            if(user == ''){
-                console.log("?")
+            if(user == 'null'){
+                console.log(user)
 
             }else{
                 console.log(user)

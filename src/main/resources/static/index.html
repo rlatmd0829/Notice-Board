@@ -7,23 +7,27 @@
     <script type = "text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 </head>
 <body>
+
+<div class = "nav" style="background: darkgray" >
+            <h4 class="logo" >
+                <a href = "/" style="color: #ffffff;margin-left: 15px">Notice-Board</a>
+                <a th:if="${user} == 'null'" id="login-text" href="/user/login" style="float: right;color: #ffffff;margin-right: 15px">
+                    로그인
+                </a>
+                <a th:if="${user} != 'null'" id="logout-text" href="/user/logout" style="float: right;color: #ffffff;margin-right: 15px">
+                    로그아웃
+                </a>
+            </h4>
+
+</div>
+<br>
+<br>
 <div class="container">
-<h2>Notice-Board</h2>
-    <br>
-<!--<a href="/api/board">글작성</a>-->
-<!--    <div id="header-title-login-user">-->
-<!--        <span th:text="${username}"></span> 님 환영합니다.-->
-<!--    </div>-->
+
     <center>
         <button class="btn btn-primary" onclick="location.href='/api/board'">글 작성</button>
     </center>
 <br>
-    <a id="login-text" href="/user/login">
-        로그인
-    </a>
-    <a id="logout-text" href="/user/logout" style="display:none;">
-        로그아웃
-    </a>
 
 <table class="table table-striped text-center">
     <thead class ="thead-dark">
@@ -31,7 +35,7 @@
         <th scope="col">#</th>
         <th scope="col">제목</th>
         <th scope="col">사용자</th>
-        <th scope="col">내용</th>
+        <th scope="col">작성일자</th>
     </tr>
     </thead>
     <tbody>
@@ -40,21 +44,14 @@
                 <td></td>
                 <th scope="col"><a th:href="@{/api/board/}+${board.id}" th:text="${board.title}"> </a></th>
                 <th scope="col" th:text="${board.user.username}"></th>
-                <th scope="col" th:text="${board.text}"></th>
+                <th scope="col" th:text="${#temporals.format(board.modifiedAt, 'yyyy-MM-dd')}"></th>
             </tr>
         </div>
     </tbody>
 </table>
 </div>
 <script>
-    $(document).ready(function(){
-        var user = '[[${user}]]'
-        console.log(user)
-        if(user != ''){
-            $(`#logout-text`).show();
-            $(`#login-text`).hide();
-        }
-    });
+
 
 </script>
 

@@ -30,7 +30,7 @@
         $(document).ready(function(){
             var user = '[[${user}]]'
             console.log(user)
-            if(user != ''){
+            if(user != 'null'){
             alert("이미 로그인 되어있습니다.")
             window.location.replace("/")
         }
@@ -39,6 +39,20 @@
     </script>
 </head>
 <body>
+
+<div class = "nav" style="background: darkgray" >
+    <h4 class="logo">
+        <a href = "/" style="color: #ffffff;margin-left: 15px">Notice-Board</a>
+        <a th:if="${user} == 'null'" id="login-text" href="/user/login" style="float: right;color: #ffffff;margin-right: 15px">
+            로그인
+        </a>
+        <a th:if="${user} != 'null'" id="logout" href="/user/logout" style="float: right;color: #ffffff;margin-right: 15px">
+            로그아웃
+        </a>
+    </h4>
+
+</div>
+
 <div id="login-form">
     <div id="login-title">Sign up Select Shop</div>
 

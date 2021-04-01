@@ -8,6 +8,22 @@
 
 </head>
 <body>
+
+<div class = "nav" style="background: darkgray" >
+    <h4 class="logo" >
+        <a href = "/" style="color: #ffffff;margin-left: 15px">Notice-Board</a>
+        <a th:if="${user} == 'null'" id="login-text" href="/user/login" style="float: right;color: #ffffff;margin-right: 15px">
+            로그인
+        </a>
+        <a th:if="${user} != 'null'" id="logout-text" href="/user/logout" style="float: right;color: #ffffff;margin-right: 15px">
+            로그아웃
+        </a>
+    </h4>
+
+</div>
+
+<br>
+
 <div class="container">
 <h2 class = "container">게시글 작성</h2>
     <br>
@@ -44,7 +60,7 @@
         $(document).ready(function(){
             var user = '[[${user}]]'
             console.log(user)
-            if(user == ''){
+            if(user == 'null'){
                 alert("로그인을 해야합니다.")
                 window.location.replace("/user/login")
 

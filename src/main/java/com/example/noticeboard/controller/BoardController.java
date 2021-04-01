@@ -56,7 +56,12 @@ public class BoardController {
     public String getIndex(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
         List<Board> board1 = boardRepository.findAll();
         System.out.println(userDetails);
-        model.addAttribute("user",userDetails);
+        if(userDetails == null){
+            model.addAttribute("user","null");
+        }else{
+            System.out.println(userDetails.getUser().getUsername());
+            model.addAttribute("user",userDetails.getUser().getUsername());
+        }
         model.addAttribute("board",board1);
         return "index";
     }
@@ -65,7 +70,12 @@ public class BoardController {
     @GetMapping("/api/board")
     public String getNotice( Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
         Board board = new Board();
-        model.addAttribute("user",userDetails);
+        if(userDetails == null){
+            model.addAttribute("user","null");
+        }else{
+            System.out.println(userDetails.getUser().getUsername());
+            model.addAttribute("user",userDetails.getUser().getUsername());
+        }
         model.addAttribute("board", board);
         return "board";
     }
@@ -90,7 +100,7 @@ public class BoardController {
 
         List<Comment> comment = commentRepository.findByBoardIdOrderByModifiedAtDesc(id);
         if(userDetails == null){
-            model.addAttribute("user",userDetails);
+            model.addAttribute("user","null");
         }else{
             System.out.println(userDetails.getUser().getUsername());
             model.addAttribute("user",userDetails.getUser().getUsername());
@@ -105,10 +115,16 @@ public class BoardController {
 
 
     @GetMapping("/api/board/{id}/edit")
-    public String getEditBoard(@PathVariable Long id, Model model){
+    public String getEditBoard(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
         Board board = boardRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
         );
+        if(userDetails == null){
+            model.addAttribute("user","null");
+        }else{
+            System.out.println(userDetails.getUser().getUsername());
+            model.addAttribute("user",userDetails.getUser().getUsername());
+        }
         model.addAttribute("board",board);
         return "editboard";
     }

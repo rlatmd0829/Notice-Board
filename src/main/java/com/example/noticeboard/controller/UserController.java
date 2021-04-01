@@ -30,7 +30,12 @@ public class UserController {
     // 회원 로그인 페이지
     @GetMapping("/user/login")
     public String login(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        model.addAttribute("user",userDetails);
+        if(userDetails == null){
+            model.addAttribute("user","null");
+        }else{
+            System.out.println(userDetails.getUser().getUsername());
+            model.addAttribute("user",userDetails.getUser().getUsername());
+        }
         return "login";
     }
 
@@ -43,7 +48,12 @@ public class UserController {
     // 회원 가입 페이지
     @GetMapping("/user/signup")
     public String signup(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        model.addAttribute("user",userDetails);
+        if(userDetails == null){
+            model.addAttribute("user","null");
+        }else{
+            System.out.println(userDetails.getUser().getUsername());
+            model.addAttribute("user",userDetails.getUser().getUsername());
+        }
         model.addAttribute("requestDto", new UserRequestDto());
         return "signup";
     }
