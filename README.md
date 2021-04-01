@@ -68,10 +68,10 @@
     
 # 화면구현
 * 로그인
-![image](https://user-images.githubusercontent.com/70622731/113297835-154fcb00-9336-11eb-9aaf-a0ba793d72e9.png)
+![image](https://user-images.githubusercontent.com/70622731/113299739-27326d80-9338-11eb-8e58-3a783e0861e9.png)
 
 * 회원가입
-![image](https://user-images.githubusercontent.com/70622731/113297935-387a7a80-9336-11eb-9918-970a45f81f5f.png)
+![image](https://user-images.githubusercontent.com/70622731/113299861-492bf000-9338-11eb-91dc-5053edfeae9b.png)
 
 * 메인페이지
 ![image](https://user-images.githubusercontent.com/70622731/113298011-53e58580-9336-11eb-9e93-b7b0b546ffcc.png)
