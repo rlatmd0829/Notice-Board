@@ -33,7 +33,7 @@ public class UserController {
         if(userDetails == null){
             model.addAttribute("user","null");
         }else{
-            System.out.println(userDetails.getUser().getUsername());
+
             model.addAttribute("user",userDetails.getUser().getUsername());
         }
         return "login";
@@ -51,7 +51,7 @@ public class UserController {
         if(userDetails == null){
             model.addAttribute("user","null");
         }else{
-            System.out.println(userDetails.getUser().getUsername());
+
             model.addAttribute("user",userDetails.getUser().getUsername());
         }
         model.addAttribute("requestDto", new UserRequestDto());
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @PostMapping("/user/signup")
-    public String registerUser(@Valid @ModelAttribute("requestDto") UserRequestDto requestDto, BindingResult bindingResult){
+    public String registerUser(Model model, @Valid @ModelAttribute("requestDto") UserRequestDto requestDto, BindingResult bindingResult){
 
         // 회원 ID 중복 확인
         Optional<User> found1 = userRepository.findByUsername(requestDto.getUsername()); // Optional을 쓰면 null을 받을 수 있다.
@@ -86,6 +86,7 @@ public class UserController {
         }
 
         if(bindingResult.hasErrors()){
+            model.addAttribute("user","null");
             return "signup";
         }
 

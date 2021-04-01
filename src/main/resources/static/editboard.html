@@ -11,6 +11,7 @@
 <div class = "nav" style="background: darkgray" >
     <h4 class="logo" >
         <a href = "/" style="color: #ffffff;margin-left: 15px">Notice-Board</a>
+        <span th:if="${user} != 'null'" th:text="${user}+'님 환영합니다.'" style="color: #ffffff;margin-left: 20px"></span>
         <a th:if="${user} == 'null'" id="login-text" href="/user/login" style="float: right;color: #ffffff;margin-right: 15px">
             로그인
         </a>
@@ -48,26 +49,6 @@
     </form>
 
 </div>
-<script>
-    // function edit(id){
-    //     let name = $(`#${id}name`).text.trim();
-    //     let title = $(`#${id}title`).text.trim();
-    //     let text = $(`#${id}text`).text.trim();
-    //     let data = {'name' : name, 'title':title, 'text': text};
-    //     $.ajax({
-    //         type: 'PUT',
-    //         url : `/api/board/edit/${id}`,
-    //         contentType: "application/json",
-    //         data : JSON.stringify(data),
-    //         success: function (response){
-    //             alert('게시글 수정에 성공하셨습니다.')
-    //
-    //         }
 
-        });
-    }
-
-
-</script>
 </body>
 </html>

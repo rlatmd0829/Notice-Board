@@ -59,7 +59,7 @@ public class BoardController {
         if(userDetails == null){
             model.addAttribute("user","null");
         }else{
-            System.out.println(userDetails.getUser().getUsername());
+
             model.addAttribute("user",userDetails.getUser().getUsername());
         }
         model.addAttribute("board",board1);
@@ -73,7 +73,7 @@ public class BoardController {
         if(userDetails == null){
             model.addAttribute("user","null");
         }else{
-            System.out.println(userDetails.getUser().getUsername());
+
             model.addAttribute("user",userDetails.getUser().getUsername());
         }
         model.addAttribute("board", board);
@@ -102,7 +102,7 @@ public class BoardController {
         if(userDetails == null){
             model.addAttribute("user","null");
         }else{
-            System.out.println(userDetails.getUser().getUsername());
+
             model.addAttribute("user",userDetails.getUser().getUsername());
         }
         model.addAttribute("editcomment",new Comment());
@@ -122,7 +122,7 @@ public class BoardController {
         if(userDetails == null){
             model.addAttribute("user","null");
         }else{
-            System.out.println(userDetails.getUser().getUsername());
+
             model.addAttribute("user",userDetails.getUser().getUsername());
         }
         model.addAttribute("board",board);

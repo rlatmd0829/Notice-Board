@@ -23,7 +23,7 @@ public class Board extends Timestamped{
     private String text;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(nullable=false)
     private User user;
 
 
@@ -31,12 +31,10 @@ public class Board extends Timestamped{
     public Board(BoardRequestDto requestDto){
         this.title = requestDto.getTitle();
         this.text = requestDto.getText();
-        this.user = requestDto.getUser();
     }
 
     public void update(BoardRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.text = requestDto.getText();
-        this.user = requestDto.getUser();
     }
 }

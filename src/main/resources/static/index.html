@@ -11,6 +11,7 @@
 <div class = "nav" style="background: darkgray" >
             <h4 class="logo" >
                 <a href = "/" style="color: #ffffff;margin-left: 15px">Notice-Board</a>
+                <span th:if="${user} != 'null'" th:text="${user}+'님 환영합니다.'" style="color: #ffffff;margin-left: 20px"></span>
                 <a th:if="${user} == 'null'" id="login-text" href="/user/login" style="float: right;color: #ffffff;margin-right: 15px">
                     로그인
                 </a>
