@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/user/login")
-                .failureUrl("/user/login")
+                .failureUrl("/user/login/error")
 //                .loginPage("/user/login")
 //                .loginProcessingUrl("/api/index") // Controller에 따로 만들지 않아도 login을 진행해준다. post인듯  get페이지는 controller에 작성되어있음
                 .defaultSuccessUrl("/")

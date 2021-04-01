@@ -40,7 +40,13 @@ public class UserController {
     }
 
     @GetMapping("/user/login/error")
-    public String loginError(Model model) {
+    public String loginError(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails ) {
+        if(userDetails == null){
+            model.addAttribute("user","null");
+        }else{
+
+            model.addAttribute("user",userDetails.getUser().getUsername());
+        }
         model.addAttribute("loginError", true);
         return "login";
     }
