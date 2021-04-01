@@ -13,7 +13,7 @@ public class UserRequestDto {
     @Pattern(regexp="^[a-zA-Z0-9]{3,12}$", message="아이디를 3~12자로 입력해주세요.(특수문자x)")
     private String username;
 
-    @Pattern(regexp="^[a-zA-Z0-9]{4,12}$", message="비밀번호를 4~12자로 입력해주세요.")
+    @Pattern(regexp="^[a-zA-Z0-9]{4,12}$", message="비밀번호를 4~12자로 입력해주세요.(특수문자x)")
     @NotBlank(message = "비밀번호를 입력해주세요")
     private String password;
 

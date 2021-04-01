@@ -57,7 +57,7 @@ public class BoardController {
 //    }
 
     @GetMapping("/")
-    public String getIndex(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails,@PageableDefault(size=5) Pageable pageable){
+    public String getIndex(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails, @PageableDefault(size=5) Pageable pageable){
         Page<Board> board = boardRepository.findAllByOrderByModifiedAtDesc(pageable);
         //board.getTotalElements(); // 전체데이터 건수
 
