@@ -43,6 +43,7 @@
         <div th:each="board : ${board}" class="table table-striped text-center">
             <tr>
                 <td></td>
+
                 <th scope="col"><a th:href="@{/api/board/}+${board.id}" th:text="${board.title}"> </a></th>
                 <th scope="col" th:text="${board.user.username}"></th>
                 <th scope="col" th:text="${#temporals.format(board.modifiedAt, 'yyyy-MM-dd HH:mm')}"></th>
@@ -50,7 +51,24 @@
         </div>
     </tbody>
 </table>
+    <center>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${1 == board.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" href="#" th:href="@{/(page=${board.pageable.pageNumber-1})}" tabindex="-1" aria-disabled="true" >Previous</a>
+            </li>
+            <li class="page-item" th:classappend="${i == board.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <a class="page-link" href="#" th:href="@{/(page=${i-1})}" th:text="${i}"></a>
+            </li>
+
+            <li class="page-item" th:classappend="${board.totalPages == board.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" href="#"  th:href="@{/(page=${board.pageable.pageNumber-1})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+    </center>
 </div>
+
 <script>
 
 
