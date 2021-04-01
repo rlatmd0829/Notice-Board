@@ -54,7 +54,7 @@ public class BoardController {
 
     @GetMapping("/")
     public String getIndex(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        List<Board> board1 = boardRepository.findAll();
+        List<Board> board1 = boardRepository.findAllByOrderByModifiedAtDesc();
         System.out.println(userDetails);
         if(userDetails == null){
             model.addAttribute("user","null");
@@ -83,8 +83,8 @@ public class BoardController {
     // 게시글 작성
     @PostMapping("/api/board")
     public String createNotice(@AuthenticationPrincipal UserDetailsImpl userDetails,@ModelAttribute BoardRequestDto requestDto){
+        requestDto.setUser(userDetails.getUser());
         Board board = new Board(requestDto);
-        board.setUser(userDetails.getUser());
         boardRepository.save(board);
         return "redirect:/";
     }
@@ -131,7 +131,8 @@ public class BoardController {
 
 
     @PutMapping("/api/board/{id}/edit")
-    public String updateBoard(@PathVariable Long id, @ModelAttribute BoardRequestDto requestDto){
+    public String updateBoard(@PathVariable Long id, @ModelAttribute BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        requestDto.setUser(userDetails.getUser());
         boardService.update(id, requestDto);
         return "redirect:/";
 

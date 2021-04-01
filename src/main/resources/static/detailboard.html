@@ -37,7 +37,7 @@
 
     <div id="boardedit" style="display: none">
         <button th:id="${board.id}+editBoard" class="btn btn-primary">수정하기</button>
-        <form action="#" th:action="@{/api/board/}+${board.id}+@{/delete}" method="post" style="display: inline">
+        <form action="#" th:action="@{/api/board/}+${board.id}+@{/delete}" method="post" th:onsubmit="return removecheck([[${board.id}]])" style="display: inline">
 
             <input type="submit" class="btn btn-primary" value="삭제하기">
             <input type="hidden" name="_method" value="delete"/>
@@ -55,16 +55,20 @@
         <br>
 
 <!--    댓글-->
-        <div th:each="comment : ${comment}" name="fr"  class="table table-striped text-center" style="border: solid">
-            <p th:text="${comment.user.username}" style="display: inline"></p>
-            <p th:id="${comment.id}+text" th:text="${comment.text}" style="display: inline"></p>
-            <button th:if="${comment.user.username} == ${user}" th:id="${comment.id}+editComment" class="btn btn-primary" th:onclick=editPost([[${comment.id}]]) >수정</button>
+        <div th:each="comment : ${comment}" name="fr"  class="table table-striped text-center" style="border: solid;padding: 7px">
+            <label style="float:left;margin-left: 10px">작성자 :</label>
+            <label >내용</label>
+            <p th:text="${comment.user.username}" style="display: inline;float: left;margin-left: 5px"></p>
+            <p th:id="${comment.id}+text" th:text="${comment.text}" ></p>
+            <div style="margin-left: 100px">
+                <button th:if="${comment.user.username} == ${user}" th:id="${comment.id}+editComment" class="btn btn-primary" th:onclick=editPost([[${comment.id}]]) >수정</button>
 
-<!--            댓글 삭제-->
-            <form th:if="${comment.user.username} == ${user}" action="#" th:action="@{/api/board/}+${board.id}+@{/comment/}+${comment.id}" method="post" th:onsubmit="return removecheck([[${comment.id}]])" style="display: inline">
-                <input type="submit" th:id="${comment.id}+removeComment" class="btn btn-primary" value="삭제" >
-                <input type="hidden" name="_method" value="delete"/>
-            </form>
+    <!--            댓글 삭제-->
+                <form th:if="${comment.user.username} == ${user}" action="#" th:action="@{/api/board/}+${board.id}+@{/comment/}+${comment.id}" method="post" th:onsubmit="return removecheck([[${comment.id}]])" style="display: inline">
+                    <input type="submit" th:id="${comment.id}+removeComment" class="btn btn-primary" value="삭제" >
+                    <input type="hidden" name="_method" value="delete"/>
+                </form>
+            </div>
 
 
 <!--        댓글 수정-->
@@ -114,7 +118,7 @@
                 alert("댓글을 입력해주세요.");
                 return false;
             }
-            if (user == ""){
+            if (user == "null"){
                 alert("로그인을 해야합니다.")
                 window.location.replace("/user/login")
                 return false
