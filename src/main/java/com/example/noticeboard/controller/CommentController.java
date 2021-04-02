@@ -24,19 +24,19 @@ public class CommentController {
     @Autowired
     BoardRepository boardRepository;
 
-    @PostMapping("/api/board/{id}/comment")
-    public String createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id, @ModelAttribute CommentRequestDto requestDto){
+    @PostMapping("/api/board/{boardId}/comment")
+    public String createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long boardId, @ModelAttribute CommentRequestDto requestDto){
         Comment comment = new Comment(requestDto);
-        Board board = boardRepository.findById(id).orElseThrow(
+        Board board = boardRepository.findById(boardId).orElseThrow(
                 ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
         );
         comment.setUser(userDetails.getUser());
         comment.setBoard(board);
         commentRepository.save(comment);
-        return "redirect:/api/board/{id}";
+        return "redirect:/api/board/{boardId}";
     }
 
-    @PutMapping("/api/board/{id}/comment/{commentId}")
+    @PutMapping("/api/board/{boardId}/comment/{commentId}")
     public String editComment(@PathVariable Long commentId, @ModelAttribute CommentRequestDto requestDto){
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 ()-> new IllegalArgumentException("댓글이 존재하지 않습니다.")
@@ -45,12 +45,12 @@ public class CommentController {
         comment.setText(requestDto.getText());
 
         commentRepository.save(comment);
-        return "redirect:/api/board/{id}";
+        return "redirect:/api/board/{boardId}";
     }
 
-    @DeleteMapping("/api/board/{id}/comment/{commentId}")
+    @DeleteMapping("/api/board/{boardId}/comment/{commentId}")
     public String deleteComment(@PathVariable Long commentId){
         commentRepository.deleteById(commentId);
-        return "redirect:/api/board/{id}";
+        return "redirect:/api/board/{boardId}";
     }
 }

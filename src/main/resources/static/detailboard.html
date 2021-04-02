@@ -37,7 +37,7 @@
 
     <div id="boardedit" style="display: none">
         <button th:id="${board.id}+editBoard" class="btn btn-primary">수정하기</button>
-        <form action="#" th:action="@{/api/board/}+${board.id}+@{/delete}" method="post" th:onsubmit="return removecheck([[${board.id}]])" style="display: inline">
+        <form action="#" th:action="@{/api/board/}+${board.id}" method="post" th:onsubmit="return removecheck([[${board.id}]])" style="display: inline">
 
             <input type="submit" class="btn btn-primary" value="삭제하기">
             <input type="hidden" name="_method" value="delete"/>

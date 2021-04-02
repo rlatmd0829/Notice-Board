@@ -104,13 +104,14 @@ public class BoardController {
 
 
     //게시글 한개 조회페이지
-    @GetMapping("/api/board/{id}")
-    public String getOneBoard(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        Board board = boardRepository.findById(id).orElseThrow(
+    @GetMapping("/api/board/{boardId}")
+    public String getOneBoard(@PathVariable Long boardId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        Board board = boardRepository.findById(boardId).orElseThrow(
                 ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
         );
 
-        List<Comment> comment = commentRepository.findByBoardIdOrderByModifiedAtDesc(id);
+        List<Comment> comment = commentRepository.findByBoardIdOrderByModifiedAtDesc(boardId);
         if(userDetails == null){
             model.addAttribute("user","null");
         }else{
@@ -126,9 +127,9 @@ public class BoardController {
     }
 
 
-    @GetMapping("/api/board/{id}/edit")
-    public String getEditBoard(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        Board board = boardRepository.findById(id).orElseThrow(
+    @GetMapping("/api/board/{boardId}/edit")
+    public String getEditBoard(@PathVariable Long boardId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        Board board = boardRepository.findById(boardId).orElseThrow(
                 ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
         );
         if(userDetails == null){
@@ -142,17 +143,17 @@ public class BoardController {
     }
 
 
-    @PutMapping("/api/board/{id}/edit")
-    public String updateBoard(@PathVariable Long id, @ModelAttribute BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    @PutMapping("/api/board/{boardId}/edit")
+    public String updateBoard(@PathVariable Long boardId, @ModelAttribute BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         requestDto.setUser(userDetails.getUser());
-        boardService.update(id, requestDto);
+        boardService.update(boardId, requestDto);
         return "redirect:/";
 
     }
 
-    @DeleteMapping("/api/board/{id}/delete")
-    public String deleteBoard(@PathVariable Long id){
-        boardRepository.deleteById(id);
+    @DeleteMapping("/api/board/{boardId}")
+    public String deleteBoard(@PathVariable Long boardId){
+        boardRepository.deleteById(boardId);
         return "redirect:/";
     }
 

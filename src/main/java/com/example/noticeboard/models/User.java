@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -30,6 +32,12 @@ public class User extends Timestamped {
 
     @Column(nullable = true)
     private Long kakaoId;
+
+    @OneToMany(mappedBy = "user")
+    List<Board> board = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    List<Comment> comment = new ArrayList<>();
 
     public User(UserRequestDto requestDto) {
         this.username = requestDto.getUsername();
