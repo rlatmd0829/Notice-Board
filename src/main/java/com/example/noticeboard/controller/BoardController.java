@@ -104,14 +104,14 @@ public class BoardController {
 
 
     //게시글 한개 조회페이지
-    @GetMapping("/api/board/{boardId}")
-    public String getOneBoard(@PathVariable Long boardId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    @GetMapping("/api/board/{id}")
+    public String getOneBoard(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
 
-        Board board = boardRepository.findById(boardId).orElseThrow(
+        Board board = boardRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
         );
 
-        List<Comment> comment = commentRepository.findByBoardIdOrderByModifiedAtDesc(boardId);
+        List<Comment> comment = commentRepository.findByBoardIdOrderByModifiedAtDesc(id);
         if(userDetails == null){
             model.addAttribute("user","null");
         }else{
@@ -123,13 +123,13 @@ public class BoardController {
         model.addAttribute("comment", comment);
         model.addAttribute("board",board);
 //        comment.get(0).getUser().getUsername()
-        return "/detailboard";
+        return "detailboard";
     }
 
 
-    @GetMapping("/api/board/{boardId}/edit")
-    public String getEditBoard(@PathVariable Long boardId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        Board board = boardRepository.findById(boardId).orElseThrow(
+    @GetMapping("/api/board/{id}/edit")
+    public String getEditBoard(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        Board board = boardRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
         );
         if(userDetails == null){
@@ -143,17 +143,17 @@ public class BoardController {
     }
 
 
-    @PutMapping("/api/board/{boardId}/edit")
-    public String updateBoard(@PathVariable Long boardId, @ModelAttribute BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    @PutMapping("/api/board/{id}/edit")
+    public String updateBoard(@PathVariable Long id, @ModelAttribute BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         requestDto.setUser(userDetails.getUser());
-        boardService.update(boardId, requestDto);
+        boardService.update(id, requestDto);
         return "redirect:/";
 
     }
 
-    @DeleteMapping("/api/board/{boardId}")
-    public String deleteBoard(@PathVariable Long boardId){
-        boardRepository.deleteById(boardId);
+    @DeleteMapping("/api/board/{id}")
+    public String deleteBoard(@PathVariable Long id){
+        boardRepository.deleteById(id);
         return "redirect:/";
     }
 
