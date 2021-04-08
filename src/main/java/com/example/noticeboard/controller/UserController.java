@@ -74,6 +74,7 @@ public class UserController {
             bindingResult.addError(fieldError);
         }
 
+
         if(!requestDto.getPassword().equals(requestDto.getCheckpw())){
             FieldError fieldError = new FieldError("requestDto","checkpw","암호가 일치하지 않습니다.");
             bindingResult.addError(fieldError);
