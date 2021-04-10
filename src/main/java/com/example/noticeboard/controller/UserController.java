@@ -39,6 +39,7 @@ public class UserController {
         return "login";
     }
 
+
     @GetMapping("/user/login/error")
     public String loginError(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails ) {
         if(userDetails == null){
